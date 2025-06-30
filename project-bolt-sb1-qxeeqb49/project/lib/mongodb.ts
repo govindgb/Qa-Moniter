@@ -43,7 +43,7 @@ async function connectToDatabase() {
       family: 4
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts);
+    cached.promise = mongoose.connect(MONGODB_URI!, opts);
   }
 
   try {

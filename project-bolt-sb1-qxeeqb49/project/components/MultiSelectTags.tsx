@@ -154,7 +154,7 @@ export default function MultiSelectTags({
               </Button>
             )}
           </div>
-          <ScrollArea className="max-h-60">
+          <ScrollArea className="max-h-60 overflow-y-auto">
             {filteredTags.length === 0 && !searchValue ? (
               <div className="p-3 text-sm text-muted-foreground text-center">
                 No more tags available
