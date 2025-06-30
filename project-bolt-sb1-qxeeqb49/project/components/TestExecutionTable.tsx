@@ -33,6 +33,13 @@ interface TestExecutionTableProps {
   onEditTestExecution: (testExecution: TestExecution) => void;
   onShowHistory: (taskId: string) => void;
 }
+interface TaskId{
+  _id: string;
+}
+type ExtendedTestExecution = TestExecution & {
+  executionCount: number;
+  latestExecution: string;
+};
 
 export default function TestExecutionTable({ onEditTestExecution, onShowHistory }: TestExecutionTableProps) {
   const { testExecutions, loading, error, getTestExecutions, deleteTestExecution } = useTestExecution();
@@ -108,29 +115,45 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
   };
 
   // Group test executions by task to show unique tasks
-  const uniqueTasks = testExecutions.reduce((acc, execution) => {
-    const taskId = execution.taskId;
-    if (!acc[taskId]) {
-      acc[taskId] = {
-        ...execution,
-        executionCount: 1,
-        latestExecution: execution.createdAt,
-      };
-    } else {
-      acc[taskId].executionCount += 1;
-      if (new Date(execution.createdAt!) > new Date(acc[taskId].latestExecution!)) {
+  const uniqueTasks = testExecutions.reduce(
+    (acc: Record<string, ExtendedTestExecution>, execution: TestExecution) => {
+      const taskId = execution.taskId && typeof execution.taskId === "object" ? execution.taskId._id : undefined;
+  
+      if (!taskId) return acc;
+  
+      const executionCreatedAt = execution.createdAt ?? "";
+      const parsedCreatedAt = new Date(executionCreatedAt);
+  
+      if (!acc[taskId]) {
         acc[taskId] = {
           ...execution,
-          executionCount: acc[taskId].executionCount + 1,
-          latestExecution: execution.createdAt,
+          executionCount: 1,
+          latestExecution: executionCreatedAt,
         };
+      } else {
+        const accLatest = acc[taskId].latestExecution ?? "";
+        const accLatestDate = new Date(accLatest);
+  
+        if (parsedCreatedAt > accLatestDate) {
+          acc[taskId] = {
+            ...execution,
+            executionCount: acc[taskId].executionCount,
+            latestExecution: executionCreatedAt,
+          };
+        } else {
+          acc[taskId].executionCount += 1;
+        }
       }
-    }
-    return acc;
-  }, {} as any);
-
-  const uniqueTasksArray = Object.values(uniqueTasks) as (TestExecution & { executionCount: number })[];
-
+  
+      return acc;
+    },
+    {} as Record<string, ExtendedTestExecution>
+  );
+  
+  
+  const uniqueTasksArray: ExtendedTestExecution[] = Object.values(uniqueTasks);
+  
+  
   if (loading && testExecutions.length === 0) {
     return (
       <Card className="shadow-lg border-0">
@@ -447,7 +470,7 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => onShowHistory(execution.taskId)}
+                          onClick={() => onShowHistory(typeof execution?.taskId === 'object' && '_id' in (execution.taskId as TaskId) ? (execution.taskId as TaskId)._id : "")}
                           className="h-8 w-8 p-0 border-green-200 text-green-700 hover:bg-green-50"
                         >
                           <History className="h-4 w-4" />

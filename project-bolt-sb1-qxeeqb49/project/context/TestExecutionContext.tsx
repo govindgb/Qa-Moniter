@@ -126,9 +126,8 @@ export function TestExecutionProvider({ children }: { children: ReactNode }) {
         });
       }
 
-      const response = await axios.get(`/api/test-executions?${params.toString()}`);
-      
-      if (response.data.success) {
+      const response = await axios.get(`/api/test-executions?${encodeURIComponent(params.toString())}`);
+      if (response.data.success) { 
         dispatch({ type: 'SET_TEST_EXECUTIONS', payload: response.data.data });
       } else {
         throw new Error(response.data.error || 'Failed to fetch test executions');

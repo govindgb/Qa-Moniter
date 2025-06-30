@@ -5,19 +5,30 @@ export interface TestCase {
 }
 
 export interface TestExecution {
-  _id?: string;
-  taskId: string;
+  _id: string;
+  taskId: {
+    _id: string;
+    tags: string[];
+    description: string;
+  };
   testId: string;
-  testCases: TestCase[];
-  status: 'pending' | 'in-progress' | 'completed' | 'failed';
+  testCases: {
+    testCase: string;
+    passed: boolean;
+    notes: string;
+    _id: string;
+  }[];
+  status: 'pending' | 'completed' | 'in-progress' | 'failed';
   feedback: string;
-  attachedImages?: string[];
+  attachedImages: string[];
   testerName: string;
   passedTestCases: number;
   totalTestCases: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
+
 
 export interface CreateTestExecutionRequest {
   taskId: string;
