@@ -134,7 +134,11 @@ export default function MultiSelectTags({
             <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0" align="start">
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] max-w-full p-0"
+          align="start"
+        >
+
           <div className="p-3 border-b">
             <Input
               placeholder="Search or add custom tag..."
@@ -155,7 +159,6 @@ export default function MultiSelectTags({
               </Button>
             )}
           </div>
-<<<<<<< Updated upstream
           <ScrollArea className="max-h-60 overflow-y-auto">
             {filteredTags.length === 0 && !searchValue ? (
               <div className="p-3 text-sm text-muted-foreground text-center">
@@ -171,28 +174,16 @@ export default function MultiSelectTags({
                     onClick={() => handleTagSelect(tag)}
                   >
                     <Check
-                      className={`mr-2 h-4 w-4 ${
-                        selectedTags.includes(tag) ? 'opacity-100' : 'opacity-0'
-=======
-          <ScrollArea className="max-h-60">
-            <div className="p-1">
-              {filteredTags.map((tag) => (
-                <Button
-                  key={tag}
-                  variant="ghost"
-                  className="w-full justify-start h-9"
-                  onClick={() => handleTagSelect(tag)}
-                >
-                  <Check
-                    className={`mr-2 h-4 w-4 ${selectedTags.includes(tag) ? 'opacity-100' : 'opacity-0'
->>>>>>> Stashed changes
-                      }`}
-                  />
-                  <span className="truncate">{tag}</span>
-                </Button>
-              ))}
-            </div>
+                      className={`mr-2 h-4 w-4 ${selectedTags.includes(tag) ? 'opacity-100' : 'opacity-0'
+                        }`}
+                    />
+                    <span className="truncate">{tag}</span>
+                  </Button>
+                ))}
+              </div>
+            )}
           </ScrollArea>
+
         </PopoverContent>
       </Popover>
       {error && (
