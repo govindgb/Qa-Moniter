@@ -10,7 +10,6 @@ export default function CreateTaskPage() {
         Create QA Testing Task
       </h1>
       <TaskForm onSuccess={() => {
-        // Show success message or redirect
         console.log('Task created successfully!');
       }} />
     </div>

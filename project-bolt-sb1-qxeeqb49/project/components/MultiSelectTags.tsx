@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from 'react';
 import { Check, ChevronDown, X, Plus } from 'lucide-react';
@@ -47,8 +47,7 @@ export default function MultiSelectTags({
   };
 
   const filteredTags = availableTags.filter(tag =>
-    tag.toLowerCase().includes(searchValue.toLowerCase()) &&
-    !selectedTags.includes(tag)
+    tag.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const handleTagSelect = (tag: string) => {
@@ -64,12 +63,15 @@ export default function MultiSelectTags({
 
   const handleCustomTagAdd = async () => {
     const trimmedValue = searchValue.trim();
-    if (trimmedValue && !selectedTags.includes(trimmedValue) && !availableTags.includes(trimmedValue)) {
+    if (
+      trimmedValue &&
+      !availableTags.includes(trimmedValue)
+    ) {
       setLoading(true);
       try {
         await axios.post('/api/tags', { tag: trimmedValue });
-        onTagsChange([...selectedTags, trimmedValue]);
         setAvailableTags(prev => [...prev, trimmedValue]);
+        onTagsChange([...selectedTags, trimmedValue]);
         setSearchValue('');
       } catch (error) {
         console.error('Error adding tag:', error);
@@ -96,9 +98,8 @@ export default function MultiSelectTags({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={`w-full justify-between min-h-[40px] h-auto ${
-              error ? 'border-red-500' : ''
-            }`}
+            className={`w-full justify-between min-h-[40px] h-auto ${error ? 'border-red-500' : ''
+              }`}
           >
             <div className="flex flex-wrap gap-1 flex-1 max-w-full overflow-hidden">
               {selectedTags.length === 0 ? (
@@ -154,6 +155,7 @@ export default function MultiSelectTags({
               </Button>
             )}
           </div>
+<<<<<<< Updated upstream
           <ScrollArea className="max-h-60 overflow-y-auto">
             {filteredTags.length === 0 && !searchValue ? (
               <div className="p-3 text-sm text-muted-foreground text-center">
@@ -171,13 +173,25 @@ export default function MultiSelectTags({
                     <Check
                       className={`mr-2 h-4 w-4 ${
                         selectedTags.includes(tag) ? 'opacity-100' : 'opacity-0'
+=======
+          <ScrollArea className="max-h-60">
+            <div className="p-1">
+              {filteredTags.map((tag) => (
+                <Button
+                  key={tag}
+                  variant="ghost"
+                  className="w-full justify-start h-9"
+                  onClick={() => handleTagSelect(tag)}
+                >
+                  <Check
+                    className={`mr-2 h-4 w-4 ${selectedTags.includes(tag) ? 'opacity-100' : 'opacity-0'
+>>>>>>> Stashed changes
                       }`}
-                    />
-                    <span className="truncate">{tag}</span>
-                  </Button>
-                ))}
-              </div>
-            )}
+                  />
+                  <span className="truncate">{tag}</span>
+                </Button>
+              ))}
+            </div>
           </ScrollArea>
         </PopoverContent>
       </Popover>

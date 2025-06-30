@@ -10,7 +10,7 @@ export default function Home() {
 
   const handleEditTask = (task: Task) => {
     setEditingTask(task);
-    // Scroll to top to show form
+   
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
