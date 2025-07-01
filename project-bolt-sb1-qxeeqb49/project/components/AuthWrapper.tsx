@@ -42,14 +42,18 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      <div className="w-64 flex-shrink-0">
+      {/* Fixed Sidebar */}
+      <div className="w-64 h-screen fixed top-0 left-0">
         <Sidebar />
       </div>
-      <main className="flex-1 overflow-auto">
+  
+      {/* Scrollable Main Content (with left margin for sidebar) */}
+      <main className="ml-64 flex-1 h-screen overflow-y-auto">
         <div className="max-w-7xl mx-auto px-6 py-8">
           {children}
         </div>
       </main>
     </div>
   );
+  
 }
