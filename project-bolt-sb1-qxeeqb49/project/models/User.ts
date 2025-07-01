@@ -47,7 +47,7 @@ const UserSchema: Schema = new Schema({
 });
 
 // Hash password before saving
-UserSchema.pre('save', async function(next) {
+UserSchema.pre('save', async function(this: IUser, next) {
   if (!this.isModified('password')) return next();
   
   try {
@@ -64,9 +64,9 @@ UserSchema.methods.comparePassword = async function(candidatePassword: string): 
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Add indexes
-UserSchema.index({ email: 1 });
-UserSchema.index({ role: 1 });
-UserSchema.index({ isActive: 1 });
+// // Add indexes
+// UserSchema.index({ email: 1 });
+// UserSchema.index({ role: 1 });
+// UserSchema.index({ isActive: 1 });
 
 export default mongoose.models.User || mongoose.model<IUser>('User', UserSchema);

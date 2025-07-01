@@ -45,10 +45,11 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
   const { testExecutions, loading, error, getTestExecutions, deleteTestExecution } = useTestExecution();
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null);
   
-  // Filter states
+  // Enhanced filter states with search field type
   const [filters, setFilters] = useState({
     status: 'all',
     search: '',
+    searchField: 'all', // New field for search type
     sortBy: 'createdAt',
     sortOrder: 'desc',
   });
@@ -112,6 +113,22 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
   const getPassRate = (passed: number, total: number) => {
     if (total === 0) return '0%';
     return `${Math.round((passed / total) * 100)}%`;
+  };
+
+  // Get placeholder text based on selected search field
+  const getSearchPlaceholder = () => {
+    switch (filters.searchField) {
+      case 'testId':
+        return 'Enter Test ID...';
+      case 'testerName':
+        return 'Enter Tester Name...';
+      case 'feedback':
+        return 'Search in Feedback...';
+      case 'taskDescription':
+        return 'Search in Task Description...';
+      default:
+        return 'Search by Test ID, Tester Name, or Feedback...';
+    }
   };
 
   // Group test executions by task to show unique tasks
@@ -233,9 +250,32 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">
-        {/* Enhanced Filters */}
+        {/* Enhanced Filters with Search Field Dropdown */}
         <div className="mb-8 space-y-6 bg-gradient-to-r from-gray-50 to-blue-50 p-6 rounded-xl border border-gray-200">
           <form onSubmit={handleSearch} className="flex gap-4 items-end">
+            {/* Search Field Type Selector */}
+            <div className="min-w-[180px]">
+              <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                Search In
+              </label>
+              <Select
+                value={filters.searchField}
+                onValueChange={(value) => handleFilterChange('searchField', value)}
+              >
+                <SelectTrigger className="h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Fields</SelectItem>
+                  <SelectItem value="testId">Test ID</SelectItem>
+                  <SelectItem value="testerName">Tester Name</SelectItem>
+                  <SelectItem value="feedback">Feedback</SelectItem>
+                  <SelectItem value="taskDescription">Task Description</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Search Input */}
             <div className="flex-1">
               <label className="text-sm font-semibold text-gray-700 mb-2 block">
                 Search Test Executions
@@ -243,13 +283,15 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input
-                  placeholder="Search by Test ID, Tester Name, or Feedback..."
+                  placeholder={getSearchPlaceholder()}
                   value={filters.search}
                   onChange={(e) => handleFilterChange('search', e.target.value)}
                   className="pl-10 h-11 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
             </div>
+
+            {/* Search Button */}
             <Button 
               type="submit" 
               disabled={loading}
@@ -319,6 +361,7 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                 onClick={() => setFilters({
                   status: 'all',
                   search: '',
+                  searchField: 'all',
                   sortBy: 'createdAt',
                   sortOrder: 'desc',
                 })}
@@ -349,6 +392,7 @@ export default function TestExecutionTable({ onEditTestExecution, onShowHistory 
                   onClick={() => setFilters({
                     status: 'all',
                     search: '',
+                    searchField: 'all',
                     sortBy: 'createdAt',
                     sortOrder: 'desc',
                   })}
