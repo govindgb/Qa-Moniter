@@ -188,7 +188,7 @@ export default function TaskForm({ editTask, onSuccess }: TaskFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Task Description</Label>
             <Textarea
               id="description"
               name="description"
