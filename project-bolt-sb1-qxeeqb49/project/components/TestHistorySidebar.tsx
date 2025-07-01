@@ -90,7 +90,7 @@ export default function TestHistorySidebar({ isOpen, onClose, taskId }: TestHist
   };
 
   if (!isOpen) return null;
-
+  console.log("selectedExecution",selectedExecution);
   return (
     <div className="fixed inset-y-0 right-0 w-96 bg-white shadow-xl border-l z-50 flex flex-col">
       <div className="flex items-center justify-between p-4 border-b">
@@ -225,12 +225,15 @@ export default function TestHistorySidebar({ isOpen, onClose, taskId }: TestHist
                                 <label className="text-sm font-medium text-gray-600">Attached Images</label>
                                 <div className="grid grid-cols-2 gap-2 mt-2">
                                   {selectedExecution.attachedImages.map((image, index) => (
+                                    <>
+                                    {console.log("->>",image)}
                                     <img
                                       key={index}
                                       src={image}
                                       alt={`Attachment ${index + 1}`}
                                       className="w-full h-32 object-cover rounded border"
                                     />
+                                    </>
                                   ))}
                                 </div>
                               </div>

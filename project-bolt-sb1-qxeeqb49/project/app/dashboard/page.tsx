@@ -193,10 +193,15 @@ export default function DashboardPage() {
             <CardTitle>Test Status Distribution</CardTitle>
           </CardHeader>
           <CardContent>
+          {statusData.every((entry) => entry.value === 0) ? (
+            <div className="h-[300px] flex items-center justify-center text-gray-500 text-sm">
+              No test status data available
+            </div>
+          ) : (
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={statusData}
+                  data={statusData.filter(entry => entry.value > 0)}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -205,14 +210,18 @@ export default function DashboardPage() {
                   fill="#8884d8"
                   dataKey="value"
                 >
-                  {statusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
+                  {statusData
+                    .filter(entry => entry.value > 0)
+                    .map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
                 </Pie>
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </CardContent>
+          )}
+        </CardContent>
+
         </Card>
 
         {/* Recent Activity */}
