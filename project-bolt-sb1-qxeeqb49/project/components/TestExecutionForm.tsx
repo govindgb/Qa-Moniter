@@ -54,7 +54,7 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
   useEffect(() => {
     if (editTestExecution) {
       setFormData({
-        taskId: editTestExecution.taskId,
+        taskId: editTestExecution.taskId?._id || '',
         testId: editTestExecution.testId,
         testCases: editTestExecution.testCases,
         status: editTestExecution.status,
@@ -64,7 +64,7 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
       });
       
       // Find and set selected task
-      const task = tasks.find(t => t._id === editTestExecution.taskId);
+      const task = tasks.find((t:any) => t._id === editTestExecution.taskId);
       if (task) {
         setSelectedTask(task);
       }
