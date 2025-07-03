@@ -177,18 +177,28 @@ export default function TaskForm({ editTask, onSuccess }: TaskFormProps) {
     <Card className="w-full">
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="tags">Tags</Label>
-            <MultiSelectTags
-              selectedTags={formData.tags}
-              onTagsChange={handleTagsChange}
-              placeholder="Select or add tags..."
-              error={errors.tags}
-            />
+        <div className="space-y-2">
+            <Label>Unit Test Label</Label>
+            <div className="space-y-3">
+             
+                <div className="flex gap-2">
+                  <Input
+                    placeholder={`Unit Test Label`}
+                    className="flex-1"
+                  />
+                
+                </div>
+            
+            </div>
+            {errors.testCases && (
+              <p className="text-sm text-red-500">{errors.testCases}</p>
+            )}
           </div>
 
+        
+
           <div className="space-y-2">
-            <Label htmlFor="description">Task Description</Label>
+            <Label htmlFor="description">Unit Test Description</Label>
             <Textarea
               id="description"
               name="description"
@@ -204,45 +214,18 @@ export default function TaskForm({ editTask, onSuccess }: TaskFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label>Test Cases</Label>
-            <div className="space-y-3">
-              {formData.testCases.map((testCase, index) => (
-                <div key={index} className="flex gap-2">
-                  <Input
-                    value={testCase}
-                    onChange={(e) => handleTestCaseChange(index, e.target.value)}
-                    placeholder={`Test case ${index + 1}`}
-                    className="flex-1"
-                  />
-                  {formData.testCases.length > 1 && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={() => removeTestCase(index)}
-                      className="shrink-0"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
-                </div>
-              ))}
-              <Button
-                type="button"
-                variant="outline"
-                onClick={addTestCase}
-                className="w-full"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Test Case
-              </Button>
-            </div>
-            {errors.testCases && (
-              <p className="text-sm text-red-500">{errors.testCases}</p>
-            )}
+            <Label htmlFor="tags">Tags</Label>
+            <MultiSelectTags
+              selectedTags={formData.tags}
+              onTagsChange={handleTagsChange}
+              placeholder="Select or add tags..."
+              error={errors.tags}
+            />
           </div>
 
-          <div className="space-y-2">
+          
+
+          {/* <div className="space-y-2">
             <Label htmlFor="notes">Notes</Label>
             <Textarea
               id="notes"
@@ -252,16 +235,16 @@ export default function TaskForm({ editTask, onSuccess }: TaskFormProps) {
               placeholder="Additional notes..."
               rows={3}
             />
-          </div>
+          </div> */}
 
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label>Attach Images</Label>
             <ImageUpload
               images={formData.attachedImages}
               onImagesChange={handleImagesChange}
               onUpload={uploadImages}
             />
-          </div>
+          </div> */}
 
           <Button
             type="submit"

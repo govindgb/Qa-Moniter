@@ -33,20 +33,20 @@ const navigation = [
     icon: LayoutDashboard,
   },
   {
-    name: 'Create Task',
+    name: 'UTC_CASES',
     href: '/create-task',
     icon: Plus,
   },
   {
-    name: 'Test Task',
+    name: 'UTC_EXECUTIONS',
     href: '/test-task',
     icon: TestTube,
   },
-  {
-    name: 'Task History',
-    href: '/task-history',
-    icon: History,
-  },
+  // {
+  //   name: 'Task History',
+  //   href: '/task-history',
+  //   icon: History,
+  // },
 ];
 
 export default function Sidebar() {

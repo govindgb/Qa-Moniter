@@ -29,7 +29,7 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
     taskId: '',
     testId: '',
     testCases: [] as TestCase[],
-    status: 'pending' as 'pending' | 'in-progress' | 'completed' | 'failed',
+    status: 'pending' as 'pending' | 'success' | 'failed',
     feedback: '',
     attachedImages: [] as string[],
     testerName: '',
@@ -198,12 +198,12 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed':
+      case 'success':
         return <CheckCircle className="h-4 w-4 text-green-600" />;
       case 'failed':
         return <XCircle className="h-4 w-4 text-red-600" />;
-      case 'in-progress':
-        return <Clock className="h-4 w-4 text-blue-600" />;
+      // case 'in-progress':
+      //   return <Clock className="h-4 w-4 text-blue-600" />;
       default:
         return <AlertCircle className="h-4 w-4 text-gray-600" />;
     }
@@ -211,10 +211,10 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed':
+      case 'success':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'in-progress':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
+      // case 'in-progress':
+      //   return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'failed':
         return 'bg-red-100 text-red-800 border-red-200';
       default:
@@ -336,22 +336,22 @@ export default function TestExecutionForm({ editTestExecution, onSuccess }: Test
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="pending">
+                  {/* <SelectItem value="pending">
                     <div className="flex items-center space-x-2">
                       <AlertCircle className="h-4 w-4 text-gray-600" />
                       <span>Pending</span>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="in-progress">
+                  </SelectItem> */}
+                  {/* <SelectItem value="in-progress">
                     <div className="flex items-center space-x-2">
                       <Clock className="h-4 w-4 text-blue-600" />
                       <span>In Progress</span>
                     </div>
-                  </SelectItem>
-                  <SelectItem value="completed">
+                  </SelectItem> */}
+                  <SelectItem value="success">
                     <div className="flex items-center space-x-2">
                       <CheckCircle className="h-4 w-4 text-green-600" />
-                      <span>Completed</span>
+                      <span>Success</span>
                     </div>
                   </SelectItem>
                   <SelectItem value="failed">
